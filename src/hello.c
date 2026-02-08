@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <string.h>
+#include <time.h>
 
 // Definisi Warna ANSI
 #define RED   "\x1B[31m"
@@ -23,7 +24,7 @@ int main() {
         if(strcmp(command, "exit") == 0) {
             printf(RED "Shutting down CLF Git OS...\n" RESET);
             break;
-        } 
+        }
         else if(strcmp(command, "clear") == 0) {
             printf("\e[1;1H\e[2J");
         }
@@ -32,15 +33,29 @@ int main() {
             printf("Tanpa Silika, tiada Transistor. Tanpa Transistor, tiada Kod.\n");
             printf("Ingatlah asal-usul teknologi.\n\n");
         }
+        else if(strcmp(command, "time") == 0) {
+            time_t t = time(NULL);
+            struct tm tm = *localtime(&t);
+            char time_str[50];
+            char date_str[50];
+
+            // Format 12-jam dengan AM/PM
+            strftime(time_str, sizeof(time_str), "%I:%M:%S %p", &tm);
+            strftime(date_str, sizeof(date_str), "%d-%m-%Y", &tm);
+
+            printf(YEL "Current System Time: " RESET "%s\n", time_str);
+            printf(YEL "Date               : " RESET "%s\n", date_str);
+        }
         else if(strcmp(command, "ver") == 0) {
             printf(WHT "CLF Git OS " GRN "v1.0" RESET " [Full Stack Ground Zero Edition]\n");
-        } 
+        }
         else if(strcmp(command, "help") == 0) {
             printf(YEL "\nAvailable Commands:\n" RESET);
             printf(" - " CYN "help" RESET "  : Show this list\n");
             printf(" - " CYN "about" RESET " : The vision of this OS\n");
             printf(" - " CYN "ver" RESET "   : Display OS version\n");
             printf(" - " CYN "fetch" RESET " : Show system info & logo\n");
+            printf(" - " CYN "time" RESET "  : Show system clock (AM/PM)\n");
             printf(" - " CYN "clear" RESET " : Clean the screen\n");
             printf(" - " CYN "pasir" RESET " : Secret origin info\n");
             printf(" - " CYN "exit" RESET "  : Shutdown OS\n\n");
@@ -65,7 +80,7 @@ int main() {
             printf("ARCH: " BLU "Silicon-Nano (Simulated)\n" RESET);
             printf("HARDWARE: " MAG "ASML 2nm Wafer-Base\n" RESET);
             printf("BUILDER: " CYN "Aiman Rafee\n" RESET);
-        } 
+        }
         else {
             printf(RED "Error: Command '%s' not found. Type 'help' for list.\n" RESET, command);
         }
